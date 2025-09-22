@@ -63,23 +63,31 @@ public class TriangleTests {
 
     @Test
     void testEquality1(){
-        var t1 = new Triangle(3.0, 4.0, 5.0);
-        var t2 = new Triangle(4.0, 5.0, 3.0);
-        Assertions.assertEquals(t1, t2);
+        var a = 2;
+        var b = 3;
+        var c = 4;
+        var triangle = new Triangle(a, b, c);
+        var triangle1 = new Triangle(a, b, c);
+        Assertions.assertEquals(triangle, triangle1);
     }
-
     @Test
     void testEquality2(){
-        var t1 = new Triangle(4.0, 5.0, 3.0);
-        var t2 = new Triangle(5.0, 3.0, 4.0);
-        Assertions.assertEquals(t1, t2);
+        var a = 2;
+        var b = 3;
+        var c = 4;
+        var triangle = new Triangle(b, a, c);
+        var triangle1 = new Triangle(b, c, a);
+        Assertions.assertEquals(triangle, triangle1);
     }
 
     @Test
     void testEquality3(){
-        var t1 = new Triangle(5.0, 3.0, 4.0);
-        var t2 = new Triangle(3.0, 4.0, 5.0);
-        Assertions.assertEquals(t1, t2);
+        var a = 2;
+        var b = 3;
+        var c = 4;
+        var triangle = new Triangle(a, b, c);
+        var triangle1 = new Triangle(c, a, b);
+        Assertions.assertEquals(triangle, triangle1);
     }
 
     @Test
@@ -91,13 +99,14 @@ public class TriangleTests {
         var triangle1 = new Triangle(a, c, b);
         Assertions.assertEquals(triangle, triangle1);
     }
+
     @Test
     void testEquality5(){
         var a = 2;
         var b = 3;
         var c = 4;
-        var triangle = new Triangle(b, a, c);
-        var triangle1 = new Triangle(b, c, a);
+        var triangle = new Triangle(a, b, c);
+        var triangle1 = new Triangle(b, a, c);
         Assertions.assertEquals(triangle, triangle1);
     }
 
@@ -106,7 +115,7 @@ public class TriangleTests {
         var a = 2;
         var b = 3;
         var c = 4;
-        var triangle = new Triangle(c, a, b);
+        var triangle = new Triangle(a, b, c);
         var triangle1 = new Triangle(c, b, a);
         Assertions.assertEquals(triangle, triangle1);
     }
