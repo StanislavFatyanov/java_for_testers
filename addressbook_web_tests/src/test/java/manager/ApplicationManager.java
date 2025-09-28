@@ -23,15 +23,15 @@ public class ApplicationManager {
         }
     }
 
-    public LoginHelper session(){
-       if(session == null){
-           session = new LoginHelper(this);
-       }
-       return  session;
+    public LoginHelper session() {
+        if (session == null) {
+            session = new LoginHelper(this);
+        }
+        return session;
     }
 
-    public GroupHelper groups(){
-        if(groups == null){
+    public GroupHelper groups() {
+        if (groups == null) {
             groups = new GroupHelper(this);
         }
         return groups;
