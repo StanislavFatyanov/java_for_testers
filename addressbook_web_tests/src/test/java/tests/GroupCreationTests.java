@@ -12,11 +12,13 @@ public class GroupCreationTests extends TestBase {
 
     @Test
     public void canCreateGroupWithEmptyName() {
+
         app.groups().createGroup(new GroupData());
     }
 
     @Test
     public void canCreateGroupWithNameOnly() {
+
         app.groups().createGroup(new GroupData().withName("some name"));
     }
 }
