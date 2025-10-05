@@ -13,6 +13,11 @@ public class ContactHelper extends HelperBase {
         fillContactFrom(contact);
         submitContactCreation();
         returnToHomePage();
+        try {
+            Thread.sleep(100);
+        } catch ( java.lang.InterruptedException ie) {
+            System.out.println(ie);
+        }
     }
 
     private void returnToHomePage() {
