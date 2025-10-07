@@ -14,7 +14,7 @@ public class ContactHelper extends HelperBase {
         submitContactCreation();
         returnToHomePage();
         try {
-            Thread.sleep(100);
+            Thread.sleep(300);
         } catch ( java.lang.InterruptedException ie) {
             System.out.println(ie);
         }
@@ -68,5 +68,10 @@ public class ContactHelper extends HelperBase {
         if (!manager.isElementPresent(By.name("searchstring"))) {
             click(By.linkText("home"));
         }
+    }
+
+    public int getCount() {
+        openContactsPage();
+        return manager.driver.findElements(By.name("selected[]")).size();
     }
 }
