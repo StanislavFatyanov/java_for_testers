@@ -17,11 +17,11 @@ public class GroupRemovalTests extends TestBase {
     }
 
     @Test
-    void canRemoveAllGroupsAtOnce(){
+    void canRemoveAllGroupsAtOnce() {
         if (app.groups().getCount() == 0) {
             app.groups().createGroup(new GroupData("group name", "group header", "group footer"));
         }
         app.groups().removeAllGroups();
-        Assertions.assertEquals(0,app.groups().getCount());
+        Assertions.assertEquals(0, app.groups().getCount());
     }
 }
