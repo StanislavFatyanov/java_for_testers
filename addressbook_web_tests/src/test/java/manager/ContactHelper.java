@@ -3,6 +3,9 @@ package manager;
 import model.ContactData;
 import org.openqa.selenium.By;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ContactHelper extends HelperBase {
     public ContactHelper(ApplicationManager manager) {
         super(manager);
@@ -54,14 +57,14 @@ public class ContactHelper extends HelperBase {
         return manager.isElementPresent(By.name("selected[]"));
     }
 
-    public void removeContact() {
-        selectContact();
+    public void removeContact(ContactData contact) {
+        selectContact(contact);
         click(By.name("delete"));
         returnToHomePage();
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(ContactData contact) {
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     public void openContactsPage() {
@@ -74,4 +77,29 @@ public class ContactHelper extends HelperBase {
         openContactsPage();
         return manager.driver.findElements(By.name("selected[]")).size();
     }
+
+    public List<ContactData> getList() {
+        var contacts = new ArrayList<ContactData>();
+        var contactRows = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
+        for (var row : contactRows) {
+            var checkbox = row.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("value");
+            String titleAttribute = checkbox.getAttribute("title");
+            String firstName = "";
+            String lastName = "";
+            if (titleAttribute != null && titleAttribute.startsWith("Select (") && titleAttribute.endsWith(")")) {
+                String fullName = titleAttribute.substring("Select (".length(), titleAttribute.length() - 1);
+                String[] nameParts = fullName.split(" ", 2);
+                if (nameParts.length > 0) {
+                    firstName = nameParts[0];
+                }
+                if (nameParts.length > 1) {
+                    lastName = nameParts[1];
+                }
+            }
+            contacts.add(new ContactData().withId(id).withFirstNameAndLastName(firstName, lastName));
+        }
+        return contacts;
+    }
+
 }
