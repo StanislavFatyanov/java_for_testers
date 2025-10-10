@@ -1,12 +1,22 @@
 package manager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class HelperBase {
     protected final ApplicationManager manager;
+    protected WebDriver driver;
+    protected WebDriverWait wait;
 
     public HelperBase(ApplicationManager manager) {
+
         this.manager = manager;
+        this.driver = manager.driver;
+        this.wait = manager.wait;
     }
 
     protected void type(By locator, String text) {
@@ -16,6 +26,7 @@ public class HelperBase {
     }
 
     protected void click(By locator) {
-        manager.driver.findElement(locator).click();
+        wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
+        //manager.driver.findElement(locator).click();
     }
 }

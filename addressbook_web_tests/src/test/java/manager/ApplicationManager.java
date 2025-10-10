@@ -7,13 +7,18 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.safari.SafariDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 
 public class ApplicationManager {
     protected WebDriver driver;
+    protected WebDriverWait wait;
     private LoginHelper session;
     private GroupHelper groups;
     private ContactHelper contacts;
+
 
     public void init(String browser) {
         if (driver == null) {
@@ -26,6 +31,7 @@ public class ApplicationManager {
             } else {
                 throw new IllegalArgumentException(String.format("Unknow browser %f", browser));
             }
+            this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
             driver.get("http://localhost/addressbook/index.php");
             driver.manage().window().setSize(new Dimension(1400, 816));

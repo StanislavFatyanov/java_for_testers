@@ -1,7 +1,9 @@
 package manager;
 
 import model.ContactData;
+import model.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,9 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeContact(ContactData contact) {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("searchstring")));
         selectContact(contact);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("delete")));
         click(By.name("delete"));
         returnToHomePage();
     }
@@ -101,5 +105,4 @@ public class ContactHelper extends HelperBase {
         }
         return contacts;
     }
-
 }
