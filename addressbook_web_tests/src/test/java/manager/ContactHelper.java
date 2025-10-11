@@ -25,6 +25,25 @@ public class ContactHelper extends HelperBase {
         }
     }
 
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        openContactsPage();
+        initContactModification(contact);
+        fillContactFrom(modifiedContact);
+        submitContactModification();
+        openContactsPage();
+    }
+
+    private void initContactModification(ContactData contact) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("maintable")));
+        String locator = String.format("a[href^='edit.php?id=%s']", contact.id());
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(locator)));
+        click(By.cssSelector(locator));
+    }
+
+    private void submitContactModification() {
+        click(By.name("update"));
+    }
+
     private void returnToHomePage() {
         click(By.linkText("home"));
     }
@@ -60,7 +79,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeContact(ContactData contact) {
-        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("searchstring")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
         selectContact(contact);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.name("delete")));
         click(By.name("delete"));
@@ -72,8 +91,9 @@ public class ContactHelper extends HelperBase {
     }
 
     public void openContactsPage() {
-        if (!manager.isElementPresent(By.name("searchstring"))) {
+        if (!manager.isElementPresent(By.id("maintable"))) {
             click(By.linkText("home"));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
         }
     }
 
@@ -83,24 +103,14 @@ public class ContactHelper extends HelperBase {
     }
 
     public List<ContactData> getList() {
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
         var contacts = new ArrayList<ContactData>();
         var contactRows = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
         for (var row : contactRows) {
             var checkbox = row.findElement(By.name("selected[]"));
             var id = checkbox.getAttribute("value");
-            String titleAttribute = checkbox.getAttribute("title");
-            String firstName = "";
-            String lastName = "";
-            if (titleAttribute != null && titleAttribute.startsWith("Select (") && titleAttribute.endsWith(")")) {
-                String fullName = titleAttribute.substring("Select (".length(), titleAttribute.length() - 1);
-                String[] nameParts = fullName.split(" ", 2);
-                if (nameParts.length > 0) {
-                    firstName = nameParts[0];
-                }
-                if (nameParts.length > 1) {
-                    lastName = nameParts[1];
-                }
-            }
+            String lastName = row.findElement(By.cssSelector("td:nth-child(2)")).getText();
+            String firstName = row.findElement(By.cssSelector("td:nth-child(3)")).getText();
             contacts.add(new ContactData().withId(id).withFirstNameAndLastName(firstName, lastName));
         }
         return contacts;
