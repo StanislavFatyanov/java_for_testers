@@ -31,10 +31,10 @@ public record ContactData(String id, String FistName, String MiddleName, String 
     public ContactData withEverythingExceptIdFirstNameLastName(String MiddleName, String NickName,
                                                            String Company,
                                                            String Address, String TelephoneHome, String TelephoneMobile, String TelephoneWork,
-                                                           String TelephoneFax, String Mail, String Mail2, String Mail3, String Homepage) {
+                                                           String TelephoneFax, String Mail, String Mail2, String Mail3, String Homepage, String Photo) {
         return new ContactData(this.id, this.FistName, MiddleName, this.LastName, NickName, Company, Address,
                 TelephoneHome, TelephoneMobile, TelephoneWork, TelephoneFax, Mail,
-                Mail2, Mail3, Homepage, this.Photo);
+                Mail2, Mail3, Homepage, Photo);
     }
 
     public ContactData withPhoto(String Photo) {

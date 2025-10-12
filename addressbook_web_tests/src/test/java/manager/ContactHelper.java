@@ -1,7 +1,6 @@
 package manager;
 
 import model.ContactData;
-import model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -15,7 +14,7 @@ public class ContactHelper extends HelperBase {
 
     public void createContact(ContactData contact) {
         initContactCreation();
-        fillContactFrom(contact);
+        fillContactForm(contact);
         submitContactCreation();
         returnToHomePage();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
@@ -24,7 +23,7 @@ public class ContactHelper extends HelperBase {
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
         openContactsPage();
         initContactModification(contact);
-        fillContactFrom(modifiedContact);
+        fillContactForm(modifiedContact);
         submitContactModification();
         openContactsPage();
     }
@@ -48,7 +47,7 @@ public class ContactHelper extends HelperBase {
         click(By.name("submit"));
     }
 
-    private void fillContactFrom(ContactData contact) {
+    private void fillContactForm(ContactData contact) {
         type(By.name("firstname"), contact.FistName());
         type(By.name("middlename"), contact.MiddleName());
         type(By.name("lastname"), contact.LastName());
@@ -63,7 +62,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("email2"), contact.Mail2());
         type(By.name("email3"), contact.Mail3());
         type(By.name("homepage"), contact.Homepage());
-        attach(By.name("photo"), contact.Photo());
+        if (contact.Photo() != null && !contact.Photo().isEmpty()) {
+            attach(By.name("photo"), contact.Photo());
+        }
     }
 
     private void initContactCreation() {
