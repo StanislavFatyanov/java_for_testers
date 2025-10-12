@@ -18,11 +18,7 @@ public class ContactHelper extends HelperBase {
         fillContactFrom(contact);
         submitContactCreation();
         returnToHomePage();
-        try {
-            Thread.sleep(300);
-        } catch ( java.lang.InterruptedException ie) {
-            System.out.println(ie);
-        }
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
     }
 
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
@@ -67,6 +63,7 @@ public class ContactHelper extends HelperBase {
         type(By.name("email2"), contact.Mail2());
         type(By.name("email3"), contact.Mail3());
         type(By.name("homepage"), contact.Homepage());
+        attach(By.name("photo"), contact.Photo());
     }
 
     private void initContactCreation() {

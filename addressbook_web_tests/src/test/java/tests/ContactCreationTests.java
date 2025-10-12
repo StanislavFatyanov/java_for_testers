@@ -3,6 +3,7 @@ package tests;
 import model.ContactData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -32,6 +33,15 @@ public class ContactCreationTests extends TestBase{
         }
         return result;
     }
+
+    @Test
+    void canCreateContactWithPhoto(){
+        var contact = new ContactData()
+                .withFirstNameAndLastName((randomString(10)), (randomString(10)))
+                .withPhoto(randomFile("src/test/resources/images"));
+        app.contacts().createContact(contact);
+    }
+
 
     @ParameterizedTest
     @MethodSource("contactProvider")
