@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import common.CommonFunctions;
 import model.ContactData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -63,5 +64,36 @@ public class ContactCreationTests extends TestBase{
         expectedList.sort(compareById);
         expectedList.sort(compareById);
         Assertions.assertEquals(newContacts, expectedList);
+    }
+
+    @Test
+    void canCreateContactInGroup(){
+        var contact = new ContactData().withTitleParameters((CommonFunctions.randomString(10)), (CommonFunctions.randomString(10)),
+                (CommonFunctions.randomString(10)), (CommonFunctions.randomString(10)), (CommonFunctions.randomString(10)));
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        app.contacts().createContact(contact, group);
+        var newRelated = app.hbm().getContactsInGroup(group);
+        ContactData newContactInGroup = null;
+        for (ContactData contactInGroup : newRelated) {
+            if (contactInGroup.FistName().equals(contact.FistName()) &&
+                    contactInGroup.LastName().equals(contact.LastName()) &&
+                    contactInGroup.Address().equals(contact.Address()) &&
+                    contactInGroup.TelephoneHome().equals(contact.TelephoneHome()) &&
+                    contactInGroup.Mail().equals(contact.Mail())) {
+                newContactInGroup = contactInGroup;
+                break;
+            }
+        }
+        List<ContactData> expectedList = new ArrayList<>(oldRelated);
+        expectedList.add(newContactInGroup);
+        Comparator<ContactData> compareById = Comparator.comparingInt(c -> Integer.parseInt(c.id()));
+        newRelated.sort(compareById);
+        expectedList.sort(compareById);
+        Assertions.assertEquals(newRelated, expectedList);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
 }

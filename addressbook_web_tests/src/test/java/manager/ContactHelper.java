@@ -1,8 +1,10 @@
 package manager;
 
 import model.ContactData;
+import model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +20,23 @@ public class ContactHelper extends HelperBase {
         submitContactCreation();
         returnToHomePage();
         wait.until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
+    }
+
+    public void createContact(ContactData contact, GroupData group) {
+        initContactCreation();
+        fillContactForm(contact);
+        selectGroup(group);
+        submitContactCreation();
+        returnToHomePage();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
+    }
+
+    private void selectGroup(GroupData group) {
+        new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
+    }
+
+    private void selectGroupForRemove(GroupData group) {
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
     }
 
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
@@ -112,5 +131,15 @@ public class ContactHelper extends HelperBase {
             contacts.add(new ContactData().withId(id).withFirstNameAndLastName(firstName, lastName));
         }
         return contacts;
+    }
+
+    public void removeContactFromGroup(ContactData contactWithCorrectId, GroupData group) {
+        openContactsPage();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("maintable")));
+        selectGroupForRemove(group);
+        selectContact(contactWithCorrectId);
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.name("remove")));
+        click(By.name("remove"));
+        returnToHomePage();
     }
 }
