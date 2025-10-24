@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 public class ContactCreationTests extends TestBase{
 
@@ -94,6 +95,35 @@ public class ContactCreationTests extends TestBase{
         newRelated.sort(compareById);
         expectedList.sort(compareById);
         Assertions.assertEquals(newRelated, expectedList);
+        Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
+    }
+
+    @Test
+    void canAddContactToGroup(){
+        var contact = new ContactData().withTitleParameters((CommonFunctions.randomString(10)), (CommonFunctions.randomString(10)),
+                (CommonFunctions.randomString(10)), (CommonFunctions.randomString(10)), (CommonFunctions.randomString(10)));
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "group name", "group header", "group footer"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+        List<ContactData> allContacts = app.hbm().getContactList();
+        var oldRelated = app.hbm().getContactsInGroup(group);
+        Optional<ContactData> maxIdContact = allContacts.stream()
+                .max(Comparator.comparingInt(c -> Integer.parseInt(c.id())));
+        int expectedNewContactId = maxIdContact
+                .map(c -> Integer.parseInt(c.id()) + 1)
+                .orElse(1);
+        var contactToAdd = new ContactData()
+                .withId(String.valueOf(expectedNewContactId)) // Устанавливаем предсказанный ID
+                .withTitleParameters(
+                        (CommonFunctions.randomString(10) + "_Fname"),
+                        (CommonFunctions.randomString(10) + "_Lname"),
+                        (CommonFunctions.randomString(10) + "_Address"),
+                        (CommonFunctions.randomString(10) + "_Phone"),
+                        (CommonFunctions.randomString(10) + "_Email")
+                );
+        app.contacts().addContactToGroup(contactToAdd, group);
+        List<ContactData> newRelated = app.hbm().getContactsInGroup(group);
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
 }

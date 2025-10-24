@@ -142,4 +142,16 @@ public class ContactHelper extends HelperBase {
         click(By.name("remove"));
         returnToHomePage();
     }
+
+    public void addContactToGroup(ContactData contact, GroupData group) {
+        createContact(contact);
+        selectContact(contact);
+        selectGroupToAdd(group);
+        returnToHomePage();
+    }
+
+    private void selectGroupToAdd(GroupData group) {
+        new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+        click(By.name("add"));
+    }
 }
