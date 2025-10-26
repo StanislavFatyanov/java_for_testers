@@ -18,6 +18,7 @@ public class ContactRecord {
     @Column(name = "home")
     public String telephonehome;
     public String email;
+    public String phone2;
 
     public ContactRecord(){}
 
