@@ -44,9 +44,14 @@ public record ContactData(String id, String FistName, String MiddleName, String 
                 this.Mail2, this.Mail3, this.Homepage, Photo, this.secondary);
     }
 
-    public ContactData withSecondary(String secondary) {
+    public ContactData withMobileWorkSecondary(String TelephoneMobile, String TelephoneWork, String secondary) {
         return new ContactData(this.id, this.FistName, this.MiddleName, this.LastName, this.NickName, this.Company, this.Address,
-                this.TelephoneHome, this.TelephoneMobile, this.TelephoneWork, this.TelephoneFax, this.Mail,
+                this.TelephoneHome, TelephoneMobile, TelephoneWork, this.TelephoneFax, this.Mail,
                 this.Mail2, this.Mail3, this.Homepage, this.Photo, secondary);
+    }
+
+    public ContactData withMail2Mail3(String Mail2, String Mail3) {
+        return new ContactData(this.id, this.FistName, this.MiddleName, this.LastName, this.NickName, this.Company, this.Address,
+                this.TelephoneHome, this.TelephoneMobile, this.TelephoneWork, this.TelephoneFax, this.Mail, Mail2, Mail3, this.Homepage, this.Photo, this.secondary);
     }
 }

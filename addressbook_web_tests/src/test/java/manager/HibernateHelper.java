@@ -52,7 +52,8 @@ public class HibernateHelper extends HelperBase{
     private static ContactData convert(ContactRecord record){
         return new ContactData().withId("" + record.id)
                 .withTitleParameters(record.firstname, record.lastname, record.address, record.telephonehome, record.email)
-                .withSecondary(record.phone2);
+                .withMobileWorkSecondary(record.telephonemobile, record.telephonework, record.phone2)
+                .withMail2Mail3(record.email2, record.email3);
     }
 
     private static ContactRecord convert(ContactData data){

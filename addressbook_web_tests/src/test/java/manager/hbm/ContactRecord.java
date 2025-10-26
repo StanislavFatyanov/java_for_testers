@@ -17,7 +17,13 @@ public class ContactRecord {
     public String address;
     @Column(name = "home")
     public String telephonehome;
+    @Column(name = "mobile")
+    public String telephonemobile;
+    @Column(name = "work")
+    public String telephonework;
     public String email;
+    public String email2;
+    public String email3;
     public String phone2;
 
     public ContactRecord(){}
@@ -29,6 +35,10 @@ public class ContactRecord {
         this.lastname = lastname;
         this.address = address;
         this.telephonehome = telephonehome;
+        this.telephonemobile = telephonemobile;
+        this.telephonework = telephonework;
         this.email = email;
+        this.email2 = email2;
+        this.email3 = email3;
     }
 }
