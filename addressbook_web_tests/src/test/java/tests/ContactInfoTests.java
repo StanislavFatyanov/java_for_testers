@@ -17,7 +17,7 @@ public class ContactInfoTests extends TestBase {
         var contacts =  app.hbm().getContactList();
         var contact = contacts.get(0);
         var phones = app.contacts().getPhones(contact);
-        var expected = Stream.of(contact.home(), contact.mobile(), contact.work(), contact.secondary())
+        var expected = Stream.of(contact.TelephoneHome(), contact.TelephoneMobile(), contact.TelephoneFax(), contact.secondary())
                 .filter(s -> s != null && ! "".equals(s))
                 .collect(Collectors.joining("\n"));
         Assertions.assertEquals(expected, phones);
